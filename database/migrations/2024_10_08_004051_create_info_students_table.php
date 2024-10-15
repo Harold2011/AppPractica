@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,6 +14,9 @@ return new class extends Migration
             $table->id();
             $table->boolean('agreement');
             $table->date('entry_date');
+            $table->date('end_date')->nullable(); // Nueva columna para fecha de terminación
+            $table->unsignedBigInteger('program_id');
+            $table->foreign('program_id')->references('id')->on('program')->onDelete('cascade');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

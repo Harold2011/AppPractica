@@ -12,9 +12,41 @@
 
                 <!-- Enlaces de navegación -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    @role('Aprendiz')
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Panel de Control') }}
                     </x-nav-link>
+                    @endrole
+                    @role('Admin')
+                    <x-nav-link href="{{ route('admin.dashboard')}}" :active="request()->routeIs('dashboard')">
+                        {{ __('Panel de Control') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('alternatives.index')}}" :active="request()->routeIs('alternatives')">
+                        {{ __('Alternativas') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('tips.index')}}" :active="request()->routeIs('tips')">
+                        {{ __('Tips') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('programs.index')}}" :active="request()->routeIs('programs')">
+                        {{ __('Programas') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('admin.index') }}" :active="request()->routeIs('admin')">
+                        {{ __('Profesores/coordinadores') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('apprentices.index') }}" :active="request()->routeIs('admin')">
+                        {{ __('Aprendices') }}
+                    </x-nav-link>
+                    @endrole
+                    @role('Profesor')
+                    <x-nav-link href="{{ route('teacher.coordinator.dashboard')}}" :active="request()->routeIs('dashboard')">
+                        {{ __('Panel de Control') }}
+                    </x-nav-link>
+                    @endrole
+                    @role('Coordinador')
+                    <x-nav-link href="{{ route('teacher.coordinator.dashboard')}}" :active="request()->routeIs('dashboard')">
+                        {{ __('Panel de Control') }}
+                    </x-nav-link>
+                    @endrole
                 </div>
             </div>
 

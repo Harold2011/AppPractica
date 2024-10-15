@@ -29,6 +29,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'cedula', // Agregar cédula aquí
     ];
 
     /**
@@ -64,4 +65,31 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function programs()
+    {
+        return $this->belongsToMany(Program::class, 'teacher', 'user_id', 'program_id')
+                    ->withTimestamps();
+    }
+    
+
+    public function coordinatorPrograms()
+    {
+        return $this->belongsToMany(Program::class, 'coordinator', 'user_id', 'program_id')
+                    ->withTimestamps();
+    }
+
+   // App\Models\User.php
+
+    public function infoStudents()
+    {
+        return $this->hasMany(InfoStudent::class, 'user_id', 'id');
+    }
+
+
+    public function coordinator()
+    {
+        return $this->hasMany(InfoStudent::class, 'user_id', 'id');
+    }
+
 }

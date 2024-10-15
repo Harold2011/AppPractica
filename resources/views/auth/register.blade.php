@@ -10,6 +10,12 @@
         <form method="POST" action="{{ route('register') }}">
             @csrf
 
+            <!-- Campo de Cédula -->
+            <div class="mt-4">
+                <x-label for="cedula" value="Cédula" />
+                <x-input id="cedula" class="block mt-1 w-full" type="text" name="cedula" :value="old('cedula')" required />
+            </div>
+
             <!-- Campo de Nombre -->
             <div>
                 <x-label for="name" value="Nombre" />
