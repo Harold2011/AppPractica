@@ -22,7 +22,7 @@ class TeacherCoordinatorDashboardController extends Controller
         // Obtener los programas asociados al usuario basado en su rol
         if ($user->hasRole('Coordinador')) {
             // Obtener programas y estudiantes asociados al coordinador
-            $programs = $user->coordinatorPrograms()->with('selectAlternatives')->get();
+            $programs = $user->coordinatorPrograms()->withCount('selectAlternatives')->get();
             $studentIds = InfoStudent::whereIn('program_id', $programs->pluck('id'))->pluck('user_id');
         } elseif ($user->hasRole('Profesor')) {
             // Obtener programas y estudiantes asociados al profesor
@@ -30,20 +30,20 @@ class TeacherCoordinatorDashboardController extends Controller
             $studentIds = InfoStudent::whereIn('program_id', $programs->pluck('id'))->pluck('user_id');
         }
 
-        // Obtener alertas relacionadas con los estudiantes de los programas
-        $alerts = SelectAlternative::whereIn('user_id', $studentIds)
-            ->with('user')
-            ->get()
-            ->groupBy('user_id')
-            ->map(function ($group) {
-                return [
-                    'user' => $group->first()->user,
-                    'total_alerts' => $group->count(),
-                    'has_selected_alternative' => $group->contains('has_selected_alternative', true),
-                ];
+        // Obtener todos los estudiantes, incluyendo aquellos que no han seleccionado alternativa
+        $alerts = $studentIds->map(function ($studentId) {
+            $alternatives = SelectAlternative::where('user_id', $studentId)->get();
+            $user = \App\Models\User::find($studentId); // Busca el usuario directamente de la tabla 'users'
+            
+            return [
+                'user' => $user,
+                'total_alerts' => $alternatives->count(),
+                'has_selected_alternative' => $alternatives->isNotEmpty(), // Verifica si hay una alternativa seleccionada
+            ];
         });
 
         // Enviar datos a la vista
         return view('teacher_coordinator.dashboard', compact('alerts', 'programs'));
     }
+
 }

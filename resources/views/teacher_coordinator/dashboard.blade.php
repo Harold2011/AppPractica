@@ -33,6 +33,8 @@
                                     <td class="border px-4 py-2 text-center">
                                         @if($alert['has_selected_alternative'])
                                             ✔️
+                                        @else
+                                            ❌
                                         @endif
                                     </td>
                                 </tr>

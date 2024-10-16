@@ -87,9 +87,9 @@ class User extends Authenticatable
     }
 
 
-    public function coordinator()
+    public function infostudent()
     {
-        return $this->hasMany(InfoStudent::class, 'user_id', 'id');
+        return $this->hasOne(InfoStudent::class, 'user_id');
     }
 
 }
